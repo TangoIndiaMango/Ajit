@@ -1,0 +1,113 @@
+openapi: 3.1.0
+info:
+  title: Book API
+  version: 1.0.0
+  description: API to retrieve and filter books
+servers:
+  - url: http://localhost:8000/api/v1/
+paths:
+  /:
+    get:
+      summary: Retrieve API root
+      responses:
+        '200':
+          description: Successful response with API endpoints
+  /books/:
+    get:
+      summary: Retrieve a list of books with filters
+      description: Retrieve books meeting zero or more filter criteria. Returns the number of books meeting the criteria and a list of book objects containing title, author information, genre, language, subject(s), bookshelf(s), and links to download the book in available formats (mime-types). If the number of books exceeds 25, returns 25 at a time and supports retrieving the next sets of 25 books until all are retrieved. Returns books in decreasing order of popularity (number of downloads). Supports filtering on book ID numbers, language, mime-type, topic (on subject and bookshelf), author, and title. Supports multiple filter criteria and multiple filter values for each criteria.
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: array
+            items:
+              type: integer
+          description: Filter by book ID numbers
+        - in: query
+          name: language
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by language code
+        - in: query
+          name: mime_type
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by mime-type
+        - in: query
+          name: topic
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by topic (on subject and bookshelf)
+        - in: query
+          name: author
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by author name
+        - in: query
+          name: title
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by book title
+      responses:
+        '200':
+          description: Successful response with list of books and metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Total number of books that match the filters
+                  next:
+                    type: string
+                    description: URL to retrieve the next set of 25 books if available
+                  previous:
+                    type: string
+                    description: URL to retrieve the previous set of 25 books if available
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BookList'
+        '400':
+          description: Bad request due to invalid filters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+    post:
+      summary: Create a new book
+      responses:
+        '201':
+          description: Successful response with newly created book object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Bad request due to invalid data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+  /books/{pk}/:
+   
