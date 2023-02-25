@@ -74,7 +74,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "book.wsgi.application"
 
-
+# -*- coding: utf-8 -*- to allow dumping of data
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -85,7 +85,7 @@ DATABASES = {
         "PASSWORD": config('DB_PASSWORD'),
         "HOST":config("DB_HOST"),
         "USER": config("DB_USER"),
-        "PORT": config("DB_PORT"),
+        "PORT": config("DB_PORT"), 
     }
 }
 
@@ -126,6 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
