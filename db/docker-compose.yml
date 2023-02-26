@@ -11,7 +11,7 @@ services:
     volumes:
       - book_app:/data/book_app
     ports:
-      - "5434:5432"
+      - "5436:5432"
     networks:
       - book_app_net
     restart: unless-stopped
