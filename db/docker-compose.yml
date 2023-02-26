@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
 networks:
-  inventory_app_net:
+  book_app_net:
     driver: bridge
 
 volumes:
